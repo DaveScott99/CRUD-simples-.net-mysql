@@ -35,9 +35,30 @@ namespace CRUD_simples
             try
             {
 
-                // Criar conexão com MySql
                 Conexao = new MySqlConnection(data_source);
 
+                Conexao.Open();
+
+                // Criar conexão com MySql
+                MySqlCommand cmd = new MySqlCommand();
+
+                cmd.Connection = Conexao;
+
+                cmd.CommandText = "INSERT INTO db_agenda.contato (NOME_CONTATO, EMAIL_CONTATO, TELEFONE_CONTATO) " +
+                                  "VALUES " +
+                                  "(@nome, @email, @telefone)";
+
+                cmd.Parameters.AddWithValue("@nome", txtNome.Text);
+                cmd.Parameters.AddWithValue("@email", txtEmail.Text);
+                cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
+
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+
+
+                /*
                 string sql = "INSERT INTO db_agenda.contato (NOME_CONTATO, EMAIL_CONTATO, TELEFONE_CONTATO) " +
                                 "VALUES " +
                                 "('" + txtNome.Text + "', '" + txtEmail.Text + "', '" + txtTelefone.Text + "') ";
@@ -48,13 +69,22 @@ namespace CRUD_simples
                 Conexao.Open();
 
                 comando.ExecuteReader();
+                */
 
-                MessageBox.Show("Contato inserido com sucesso!");
+                MessageBox.Show("Contato Inserido com Sucesso",
+                "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Erro " + ex.Number + " ocorreu: " + ex.Message,
+                            "Erro ", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Ocorreu um Erro: " + ex.Message,
+                                "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -102,8 +132,6 @@ namespace CRUD_simples
 
                     lstContatos.Items.Add(linha_list_view);
                 }
-
-
 
             }
             catch (Exception ex)
