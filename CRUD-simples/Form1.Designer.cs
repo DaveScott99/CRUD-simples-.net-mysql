@@ -107,7 +107,7 @@
             // 
             lstContatos.Location = new Point(266, 87);
             lstContatos.Name = "lstContatos";
-            lstContatos.Size = new Size(559, 162);
+            lstContatos.Size = new Size(559, 379);
             lstContatos.TabIndex = 7;
             lstContatos.UseCompatibleStateImageBehavior = false;
             // 
@@ -141,7 +141,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(837, 271);
+            ClientSize = new Size(843, 480);
             Controls.Add(button1);
             Controls.Add(txtBusca);
             Controls.Add(label4);

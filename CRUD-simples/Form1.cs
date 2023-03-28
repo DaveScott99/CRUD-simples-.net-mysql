@@ -23,6 +23,8 @@ namespace CRUD_simples
             lstContatos.Columns.Add("Email", 150, HorizontalAlignment.Left);
             lstContatos.Columns.Add("Telefone", 150, HorizontalAlignment.Left);
 
+            carregarContatos();
+
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -56,23 +58,10 @@ namespace CRUD_simples
 
                 cmd.ExecuteNonQuery();
 
-
-
-                /*
-                string sql = "INSERT INTO db_agenda.contato (NOME_CONTATO, EMAIL_CONTATO, TELEFONE_CONTATO) " +
-                                "VALUES " +
-                                "('" + txtNome.Text + "', '" + txtEmail.Text + "', '" + txtTelefone.Text + "') ";
-
-                // Executar comando Insert
-                MySqlCommand comando = new MySqlCommand(sql, Conexao);
-
-                Conexao.Open();
-
-                comando.ExecuteReader();
-                */
-
                 MessageBox.Show("Contato Inserido com Sucesso",
                 "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                carregarContatos();
 
             }
             catch (MySqlException ex)
@@ -98,23 +87,25 @@ namespace CRUD_simples
             try
             {
 
-                string query = "'%" + txtBusca.Text + "%'";
 
-                // Criar conexão com MySql
                 Conexao = new MySqlConnection(data_source);
-
-                // Comando SQL
-                string sql = "SELECT * " +
-                             "FROM db_agenda.contato " +
-                             "WHERE NOME_CONTATO LIKE " + query + "OR EMAIL_CONTATO LIKE " + query;
-
                 Conexao.Open();
 
-                // Executar comando Insert
-                MySqlCommand comando = new MySqlCommand(sql, Conexao);
+                MySqlCommand cmd = new MySqlCommand();
+
+                cmd.Connection = Conexao;
+
+                cmd.CommandText = "SELECT * FROM db_agenda.contato " +
+                                  "WHERE NOME_CONTATO LIKE " +
+                                  "@busca OR EMAIL_CONTATO LIKE @busca";
+
+
+                cmd.Parameters.AddWithValue("@busca", "%" + txtBusca.Text + "%");
+
+                cmd.Prepare();
 
                 // Variável para armazenar os dados da requisição
-                MySqlDataReader reader = comando.ExecuteReader();
+                MySqlDataReader reader = cmd.ExecuteReader();
 
                 lstContatos.Items.Clear();
 
@@ -128,15 +119,20 @@ namespace CRUD_simples
                         reader.GetString(3),
                     };
 
-                    var linha_list_view = new ListViewItem(row);
-
-                    lstContatos.Items.Add(linha_list_view);
+                    lstContatos.Items.Add(new ListViewItem(row));
                 }
+
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Erro " + ex.Number + " ocorreu: " + ex.Message,
+                            "Erro ", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Ocorreu um Erro: " + ex.Message,
+                                "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -144,5 +140,60 @@ namespace CRUD_simples
             }
 
         }
+
+        private void carregarContatos()
+        {
+            try
+            {
+
+                Conexao = new MySqlConnection(data_source);
+                Conexao.Open();
+
+                MySqlCommand cmd = new MySqlCommand();
+
+                cmd.Connection = Conexao;
+
+                cmd.CommandText = "SELECT * FROM db_agenda.contato ORDER BY ID_CONTATO ASC";
+
+                cmd.Prepare();
+
+                // Variável para armazenar os dados da requisição
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                lstContatos.Items.Clear();
+
+                while (reader.Read())
+                {
+                    string[] row =
+                    {
+                        reader.GetString(0),
+                        reader.GetString(1),
+                        reader.GetString(2),
+                        reader.GetString(3),
+                    };
+
+                    lstContatos.Items.Add(new ListViewItem(row));
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Erro " + ex.Number + " ocorreu: " + ex.Message,
+                            "Erro ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocorreu um Erro: " + ex.Message,
+                                "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                Conexao.Close();
+            }
+        }
+
     }
+
+
 }
