@@ -35,6 +35,10 @@
             txtNome = new TextBox();
             txtEmail = new TextBox();
             txtTelefone = new TextBox();
+            lstContatos = new ListView();
+            label4 = new Label();
+            txtBusca = new TextBox();
+            button1 = new Button();
             SuspendLayout();
             // 
             // btnSalvar
@@ -99,11 +103,49 @@
             txtTelefone.Size = new Size(230, 23);
             txtTelefone.TabIndex = 6;
             // 
+            // lstContatos
+            // 
+            lstContatos.Location = new Point(266, 87);
+            lstContatos.Name = "lstContatos";
+            lstContatos.Size = new Size(559, 162);
+            lstContatos.TabIndex = 7;
+            lstContatos.UseCompatibleStateImageBehavior = false;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(266, 40);
+            label4.Name = "label4";
+            label4.Size = new Size(88, 15);
+            label4.TabIndex = 8;
+            label4.Text = "Buscar Contato";
+            // 
+            // txtBusca
+            // 
+            txtBusca.Location = new Point(266, 58);
+            txtBusca.Name = "txtBusca";
+            txtBusca.Size = new Size(398, 23);
+            txtBusca.TabIndex = 9;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(670, 58);
+            button1.Name = "button1";
+            button1.Size = new Size(155, 23);
+            button1.TabIndex = 10;
+            button1.Text = "Buscar";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click_1;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(263, 271);
+            ClientSize = new Size(837, 271);
+            Controls.Add(button1);
+            Controls.Add(txtBusca);
+            Controls.Add(label4);
+            Controls.Add(lstContatos);
             Controls.Add(txtTelefone);
             Controls.Add(txtEmail);
             Controls.Add(txtNome);
@@ -126,5 +168,9 @@
         private TextBox txtNome;
         private TextBox txtEmail;
         private TextBox txtTelefone;
+        private ListView lstContatos;
+        private Label label4;
+        private TextBox txtBusca;
+        private Button button1;
     }
 }
