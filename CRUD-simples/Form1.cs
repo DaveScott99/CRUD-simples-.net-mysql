@@ -8,6 +8,8 @@ namespace CRUD_simples
         private MySqlConnection Conexao;
         private string data_source = "datasource=localhost;username=root;password=@frost2016;database=db_agenda";
 
+        private int? id_contato_selecionado = null;
+
         public Form1()
         {
             InitializeComponent();
@@ -46,20 +48,51 @@ namespace CRUD_simples
 
                 cmd.Connection = Conexao;
 
-                cmd.CommandText = "INSERT INTO db_agenda.contato (NOME_CONTATO, EMAIL_CONTATO, TELEFONE_CONTATO) " +
-                                  "VALUES " +
-                                  "(@nome, @email, @telefone)";
+                if (id_contato_selecionado == null)
+                {
+                    // Inserção de Contato
+                    cmd.CommandText = "INSERT INTO db_agenda.contato (NOME_CONTATO, EMAIL_CONTATO, TELEFONE_CONTATO) " +
+                                 "VALUES " +
+                                 "(@nome, @email, @telefone)";
 
-                cmd.Parameters.AddWithValue("@nome", txtNome.Text);
-                cmd.Parameters.AddWithValue("@email", txtEmail.Text);
-                cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
+                    cmd.Parameters.AddWithValue("@nome", txtNome.Text);
+                    cmd.Parameters.AddWithValue("@email", txtEmail.Text);
+                    cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
 
-                cmd.Prepare();
+                    cmd.Prepare();
 
-                cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
 
-                MessageBox.Show("Contato Inserido com Sucesso",
-                "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Contato Inserido com Sucesso",
+                    "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    // Atualização de Contato
+                    cmd.CommandText = "UPDATE db_agenda.contato " +
+                                      "SET NOME_CONTATO=@nome, EMAIL_CONTATO=@email, TELEFONE_CONTATO=@telefone " +
+                                      "WHERE " +
+                                      "ID_CONTATO=@id";
+
+                    cmd.Parameters.AddWithValue("@nome", txtNome.Text);
+                    cmd.Parameters.AddWithValue("@email", txtEmail.Text);
+                    cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
+                    cmd.Parameters.AddWithValue("@id", id_contato_selecionado);
+
+                    cmd.Prepare();
+
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Contato Atualizado com Sucesso",
+                    "Sucesso!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+
+                id_contato_selecionado = null;
+
+                txtNome.Text = String.Empty;
+                txtEmail.Text = "";
+                txtTelefone.Text = "";
 
                 carregarContatos();
 
@@ -193,7 +226,39 @@ namespace CRUD_simples
             }
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lstContatos_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+
+            // Cria uma coleção de itens da lista;
+            ListView.SelectedListViewItemCollection itens_selecionados = lstContatos.SelectedItems;
+
+            // Percorre cada item um por vez e seleciona um especifico;
+            foreach (ListViewItem item in itens_selecionados)
+            {
+                id_contato_selecionado = Convert.ToInt32(item.SubItems[0].Text);
+
+                txtNome.Text = item.SubItems[1].Text;
+                txtEmail.Text = item.SubItems[2].Text;
+                txtTelefone.Text = item.SubItems[3].Text;
+
+            }
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            id_contato_selecionado = null;
+
+            txtNome.Text = String.Empty;
+            txtEmail.Text = "";
+            txtTelefone.Text = "";
+
+            txtNome.Focus();
+        }
     }
-
-
 }

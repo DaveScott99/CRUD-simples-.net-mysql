@@ -39,6 +39,7 @@
             label4 = new Label();
             txtBusca = new TextBox();
             button1 = new Button();
+            button2 = new Button();
             SuspendLayout();
             // 
             // btnSalvar
@@ -106,10 +107,12 @@
             // lstContatos
             // 
             lstContatos.Location = new Point(266, 87);
+            lstContatos.MultiSelect = false;
             lstContatos.Name = "lstContatos";
             lstContatos.Size = new Size(559, 379);
             lstContatos.TabIndex = 7;
             lstContatos.UseCompatibleStateImageBehavior = false;
+            lstContatos.ItemSelectionChanged += lstContatos_ItemSelectionChanged;
             // 
             // label4
             // 
@@ -137,11 +140,22 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click_1;
             // 
+            // button2
+            // 
+            button2.Location = new Point(91, 226);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 11;
+            button2.Text = "Novo";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(843, 480);
+            Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(txtBusca);
             Controls.Add(label4);
@@ -155,6 +169,7 @@
             Controls.Add(btnSalvar);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -172,5 +187,6 @@
         private Label label4;
         private TextBox txtBusca;
         private Button button1;
+        private Button button2;
     }
 }
