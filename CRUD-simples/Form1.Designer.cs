@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             btnSalvar = new Button();
             label1 = new Label();
             label2 = new Label();
@@ -36,17 +37,21 @@
             txtEmail = new TextBox();
             txtTelefone = new TextBox();
             lstContatos = new ListView();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            toolStripMenuItem1 = new ToolStripMenuItem();
             label4 = new Label();
             txtBusca = new TextBox();
             button1 = new Button();
             button2 = new Button();
+            btnExcluir = new Button();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // btnSalvar
             // 
-            btnSalvar.Location = new Point(172, 226);
+            btnSalvar.Location = new Point(181, 226);
             btnSalvar.Name = "btnSalvar";
-            btnSalvar.Size = new Size(75, 23);
+            btnSalvar.Size = new Size(66, 23);
             btnSalvar.TabIndex = 0;
             btnSalvar.Text = "Salvar";
             btnSalvar.UseVisualStyleBackColor = true;
@@ -106,6 +111,7 @@
             // 
             // lstContatos
             // 
+            lstContatos.ContextMenuStrip = contextMenuStrip1;
             lstContatos.Location = new Point(266, 87);
             lstContatos.MultiSelect = false;
             lstContatos.Name = "lstContatos";
@@ -113,6 +119,19 @@
             lstContatos.TabIndex = 7;
             lstContatos.UseCompatibleStateImageBehavior = false;
             lstContatos.ItemSelectionChanged += lstContatos_ItemSelectionChanged;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1 });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(156, 26);
+            // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(155, 22);
+            toolStripMenuItem1.Text = "Excluir Contato";
+            toolStripMenuItem1.Click += toolStripMenuItem1_Click;
             // 
             // label4
             // 
@@ -142,19 +161,31 @@
             // 
             // button2
             // 
-            button2.Location = new Point(91, 226);
+            button2.Location = new Point(110, 226);
             button2.Name = "button2";
-            button2.Size = new Size(75, 23);
+            button2.Size = new Size(65, 23);
             button2.TabIndex = 11;
             button2.Text = "Novo";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
+            // 
+            // btnExcluir
+            // 
+            btnExcluir.Location = new Point(38, 226);
+            btnExcluir.Name = "btnExcluir";
+            btnExcluir.Size = new Size(66, 23);
+            btnExcluir.TabIndex = 12;
+            btnExcluir.Text = " Excluir";
+            btnExcluir.UseVisualStyleBackColor = true;
+            btnExcluir.Visible = false;
+            btnExcluir.Click += button3_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(843, 480);
+            Controls.Add(btnExcluir);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(txtBusca);
@@ -170,6 +201,7 @@
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -188,5 +220,8 @@
         private TextBox txtBusca;
         private Button button1;
         private Button button2;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem toolStripMenuItem1;
+        private Button btnExcluir;
     }
 }
